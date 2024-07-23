@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content_wrapper" id="app">
+    <!-- Input Form Section -->
+    <div class="input_section">
+        <form method="post" action="{% url 'home' %}">
+            {% csrf_token %}
+            <label for="latitude">Latitude:</label>
+            <input type="text" name="latitude" id="latitude" placeholder="Enter latitude" required />
+
+            <label for="longitude">Longitude:</label>
+            <input type="text" name="longitude" id="longitude" placeholder="Enter longitude" required />
+
+            <label for="detailing_type">Detailing Type:</label>
+            <select name="detailing_type" id="detailing_type" required>
+                <option value="current">Current Weather</option>
+                <option value="hourly">Hourly Forecast</option>
+                <option value="daily">Daily Forecast</option>
+            </select>
+
+            <button type="submit" id="searchButton">Get Weather</button>
+        </form>
+    </div>
+    {% if data %}
+    <h1>
+        Weather Forecast
+    </h1>
+    <div class="weather_card">
+        <div class="weather_card_img"
+            style="background-image: url('http://openweathermap.org/img/wn/{{ data.icon }}.png');">
+            <div class="weather_card_state">
+                <span class="material-icons">
+                    {{ data.city }}
+                </span>
+            </div>
+        </div>
+
+        <div class="weather_card_infos">
+            <div class="weather_card_infos_title">
+                {{ data.description }}
+            </div>
+            <div class="weather_card_infos_temp">
+                {{ data.celsius_temperature }} C, {{ data.kelvin_temperature }} K
+            </div>
+            <div class="bottom">
+                <hr>
+                <div class="weather_card_infos_bottom">
+                    Humidity: {{ data.humidity }} - Pressure: {{ data.pressure }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% elif error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+</div>
+
+{% endblock %}
