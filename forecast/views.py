@@ -29,6 +29,9 @@ def home(request):
             
             if response.status_code == 200 and 'weather' in data:
                 if detailing_type == 'current':
+                    now_utc = timezone.now()
+                    ist_offset = timedelta(hours=5, minutes=30)
+                    last_updated_ist = now_utc + ist_offset
                     weather_data = WeatherData.objects.update_or_create(
                         city=data['name'],
                         defaults={
@@ -38,7 +41,7 @@ def home(request):
                             'kelvin_temperature': round(data['main']['temp'], 2),
                             'humidity': data['main']['humidity'],
                             'pressure': data['main']['pressure'],
-                            'last_updated': timezone.now()
+                            'last_updated': last_updated_ist
                         }
                     )[0]
                     
