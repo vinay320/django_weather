@@ -5,9 +5,9 @@
 echo "Building the project..."
 python3.12 -m pip install -r requirements.txt
 
-echo "Make Migrations..."
+echo "Making Migrations..."
 python3.12 manage.py makemigrations --noinput
-python3.12 manage.py migrate --noinput  # Corrected the typo here
+python3.12 manage.py migrate --noinput
 
-echo "Collect Static..."
+echo "Collecting Static Files..."
 python3.12 manage.py collectstatic --noinput --clear
